@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -132,8 +132,10 @@
         <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
         <!-- Moment  -->
-        <script src="/assets/plugins/moment/moment.js"></script>
         
+        <script src="/assets/plugins/moment/moment.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-with-data.js"></script>
+
         <!-- Sweet Alert  -->
         <script src="/assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -412,9 +414,8 @@
             });
 
             $("#choose_time").on('click', function(){
-                var today = new Date();
-                today.setTime(today.getTime()+1000*60*60*8);
-                document.getElementById("choose_time").value  = today.toISOString().substr(0, 16);
+                var today = moment().tz('Asia/Taipei').format('YYYY-MM-DDThh:mm');
+                document.getElementById("choose_time").value  = today;
                 var shop = $("#choose_shop").val();
                 check_flag = false;
                 if(shop !== undefined && shop !== null && shop !== ''){
