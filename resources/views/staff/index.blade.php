@@ -414,7 +414,7 @@
             });
 
             $("#choose_time").on('click', function(){
-                var today = moment().tz('Asia/Taipei').format('YYYY-MM-DDThh:mm');
+                var today = moment().tz('Asia/Taipei').format('YYYY-MM-DDTHH:mm');
                 document.getElementById("choose_time").value  = today;
                 var shop = $("#choose_shop").val();
                 check_flag = false;
@@ -653,15 +653,17 @@
             $('body').on('click', '.time_option', function(){
                 var date = $('#check_time_date').val();
                 var time = $(this).text();
-                var datetime = new Date(date+"T"+time);
+                var datetime = moment(date+"T"+time);
                 var shop_id = $("#choose_shop").val();
-                if(datetime < new Date(date+"T10:00")){
-                   datetime.setDate(datetime.getDate()+1);
+                if(datetime < moment(date+"T10:00")){
+                   datetime.add(1, 'days');
                 }
-
+    
+                console.log(datetime);
                 var limit = document.getElementById("limit_time").checked;
                 $("#room_list").html('房間判斷中.....');
-                document.getElementById("choose_time").value  = datetime.toISOString().substr(0, 16);
+                console.log(datetime.tz('Asia/Taipei').format('YYYY-MM-DDTHH:mm'));
+                document.getElementById("choose_time").value  = datetime.tz('Asia/Taipei').format('YYYY-MM-DDTHH:mm');
               
                 $.ajax({
                     url: '/api/staff/check_status',
