@@ -104,7 +104,7 @@ class OrderController extends Controller
 		}
 
 		if($request->end_time){
-			$order_list = $order_list->whereDate('created_at', "<=", $request->end_time);
+			$order_list = $order_list->whereDate('end_time', "<=", $request->end_time);
 		}
 
 		if($request->service){
