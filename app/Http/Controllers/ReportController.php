@@ -176,7 +176,7 @@ class ReportController extends Controller
                 "status" => 3]
             );
 
-            return response()->json(["res"=>1]);
+            return response()->json(["res"=>1, "result"=>"回傳意見調查表成功"]);
         }
 
         
