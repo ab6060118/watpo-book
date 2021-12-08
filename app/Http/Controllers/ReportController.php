@@ -175,8 +175,7 @@ class ReportController extends Controller
                 "q6_reason" => $request->q6_reason,
                 "status" => 3]
             );
-
-            return response()->json(["res"=>1, "result"=>"回傳意見調查表成功"]);
+            return redirect('/report');
         }
 
         
