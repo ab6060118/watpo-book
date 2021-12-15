@@ -34,7 +34,7 @@ class CalendarController extends Controller
 	}
 	public function index(Request $request, $shop_id)
 	{
-	
+
 		$service_providers = ServiceProvider::with('shop')->where('activate', true)->orderBy('name', 'asc')->get();
 		
 		$rooms = Room::where('shop_id', $shop_id)->orderBy('name', 'asc')->get();
@@ -596,12 +596,18 @@ class CalendarController extends Controller
 			if(!isset($phone) || $phone == ''){
 				$phone = "現場客";
 			}
-
+			
 			if(!$start_time){
 				throw new Exception("缺少開始時間", 1);
 			}
 			if(!$end_time){
 				throw new Exception("缺少結束時間", 1);
+			}
+			if(time() > strtotime($start_time)) {
+				throw new Exception("開始時間小於現在時間", 1);
+			}
+			if(time() > strtotime($end_time)) {
+				throw new Exception("結束時間小於現在時間", 1);
 			}
 			if($start_time > $end_time){
 				throw new Exception("結束時間比開始時間早", 1);
