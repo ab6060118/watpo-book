@@ -603,10 +603,10 @@ class CalendarController extends Controller
 			if(!$end_time){
 				throw new Exception("缺少結束時間", 1);
 			}
-			if(time() > strtotime($start_time)) {
+			if(time() + 600 > strtotime($start_time)) {
 				throw new Exception("開始時間小於現在時間", 1);
 			}
-			if(time() > strtotime($end_time)) {
+			if(time() + 600 > strtotime($end_time)) {
 				throw new Exception("結束時間小於現在時間", 1);
 			}
 			if($start_time > $end_time){
