@@ -159,8 +159,15 @@ class ReportController extends Controller
                 ]);
         }
         else{
+            $staff = "晚班櫃檯";
+            $hour = date("H" ,strtotime($is_order->start_time));
+            if ($is_order->shop_id == 1 && $hour >= 12 && $hour <= 20) {
+                $staff = "早班櫃檯";
+            } else if ($is_order->shop_id == 2 && $hour >= 11 && $hour <= 19) {
+                $staff = "早班櫃檯";
+            }
             $report = Report::where('order_id', $id)->update(
-                ["q0" => $request->q0,
+                ["q0" => $staff,
                 "q1" => $request->q1,
                 "q2" => $request->q2,
                 "q3" => $request->q3,

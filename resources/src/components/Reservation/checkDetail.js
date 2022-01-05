@@ -315,6 +315,7 @@ class CheckDetail extends React.Component {
                             inputRef={ref => { this.nameInput = ref; }}
                             onChange={this.setName}
                             defaultValue={reservation.name}
+                            maxLength="10"
                         />
                         <FormControl.Feedback />
                         <p className="hint">{t(this.state.nameHint)}</p>
