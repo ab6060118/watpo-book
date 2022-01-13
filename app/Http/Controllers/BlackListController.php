@@ -45,7 +45,7 @@ class BlackListController extends Controller
 	{
 		try{
 			$blackList = new BlackList;
-			$blackList = $blackList->firstOrNew(['name' => $request->name, 'phone' => $request->phone]);
+			$blackList = $blackList->firstOrNew(['phone' => $request->phone]);
 
 			if ($blackList->exists) {
 			    $blackList->description = $request->description;

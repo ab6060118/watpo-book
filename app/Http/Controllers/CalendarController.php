@@ -254,7 +254,7 @@ class CalendarController extends Controller
 				$order->save();
 				if($data->phone != '現場客'){
 					$blackList = new BlackList;
-					$blackList = $blackList->firstOrNew(['name' => $order->name, 'phone' => $order->phone]);
+					$blackList = $blackList->firstOrNew(['phone' => $order->phone]);
 					if ($blackList->exists) {
 					    $blackList->overtime += 1;
 					    if($blackList->overtime >= 5) $blackList->status = 1;
@@ -603,10 +603,10 @@ class CalendarController extends Controller
 			if(!$end_time){
 				throw new Exception("缺少結束時間", 1);
 			}
-			if(time() - 600 > strtotime($start_time)) {
+			if(time() - 600 > strtotime($start_time) && $request->session()->get('account_level') != 1) {
 				throw new Exception("開始時間小於現在時間", 1);
 			}
-			if(time() - 600 > strtotime($end_time)) {
+			if(time() - 600 > strtotime($end_time) && $request->session()->get('account_level') != 1) {
 				throw new Exception("結束時間小於現在時間", 1);
 			}
 			if($start_time > $end_time){
