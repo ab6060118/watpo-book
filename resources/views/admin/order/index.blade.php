@@ -111,24 +111,40 @@
 			                    	<!-- /form-group-->
 			                  	</div>
 			                  <!-- /col-md-4-->
-			                  	<div class="col-md-4">
+			                  	<div class="col-md-2">
 			                    	<div class="form-group">
 			                      		<label class="col-md-4 control-label">訂單日期</label>
 			                      		<div class="col-md-8">
-			                        		<input type="date" name="start_time" class="form-control" value="{{ $request->start_time }}">
+			                        		<input type="date" name="start_date" class="form-control" value="{{ $request->start_date }}">
 			                      		</div>
 			                   		</div>
 			                    <!-- /form-group-->
 			                  	</div>
 			                  <!-- /col-md-4-->
-				                <div class="col-md-4">
+				                <div class="col-md-2">
 				                    <div class="form-group">
 										<label class="col-md-4 control-label text-center">至</label>
 				                    	<div class="col-md-8">
-				                        	<input type="date" name="end_time" class="form-control" value="{{ $request->end_time }}">
+				                        	<input type="date" name="end_date" class="form-control" value="{{ $request->end_date }}">
 				                    	</div>
 				                    </div>
 				                    <!-- /form-group-->
+				                </div>
+								<div class="col-md-2">
+				                    <div class="form-group">
+										<label class="col-md-4 control-label text-center">時間範圍</label>
+				                    	<div class="col-md-8">
+				                        	<input type="time" name="start_time" class="form-control" value="{{ $request->start_time }}">
+				                    	</div>
+				                    </div>
+				                </div>
+								<div class="col-md-2">
+				                    <div class="form-group">
+										<label class="col-md-4 control-label text-center">至</label>
+				                    	<div class="col-md-8">
+				                        	<input type="time" name="end_time" class="form-control" value="{{ $request->end_time }}">
+				                    	</div>
+				                    </div>
 				                </div>
 			                  <!-- /col-md-4-->
 			                  <!-- /col-md-8-->
@@ -147,7 +163,7 @@
 				                    </div>
 				                    <!-- /form-group-->
 				                </div>
-			                	<div class="col-md-4 text-right"><a href="/admin/order/export?name={{$request->name}}&service={{$request->service}}&phone={{$request->phone}}&shop={{$request->shop}}&service_provider={{$request->service_provider}}&start_time={{$request->start_time}}&end_time={{$request->end_time}}&room={{$request->room}}&count={{$request->count}}&count_end={{$request->count_end}}" class="btn btn-danger" target="_blank">匯出</a><input class="btn btn-primary" type="submit" value="查詢"></div>
+			                	<div class="col-md-4 text-right"><a href="/admin/order/export?name={{$request->name}}&service={{$request->service}}&phone={{$request->phone}}&shop={{$request->shop}}&service_provider={{$request->service_provider}}&start_date={{$request->start_date}}&end_date={{$request->end_date}}&room={{$request->room}}&count={{$request->count}}&count_end={{$request->count_end}}" class="btn btn-danger" target="_blank">匯出</a><input class="btn btn-primary" type="submit" value="查詢"></div>
 			                  <!-- /col-md-12-->
 			                </div>
 			                <!-- /row-->
@@ -255,8 +271,8 @@
 						@endforeach
 					</tbody>
 				</table>
-				{!! $order_list->appends(['name' => $request->name, 'service' => $request->service, 'phone' => $request->phone, 'shop' => $request->shop, 'service_provider' => $request->service_provider, 'start_time' => $request->start_time, 'end_time' => $request->end_time, 'room' => $request->room,
-				'count' => $request->count, 'count_end' => $request->count_end])->links() !!}
+				{!! $order_list->appends(['name' => $request->name, 'service' => $request->service, 'phone' => $request->phone, 'shop' => $request->shop, 'service_provider' => $request->service_provider,
+					 'start_date' => $request->start_date, 'end_date' => $request->end_date, 'start_time' => $request->start_time, 'end_time' => $request->end_time, 'room' => $request->room, 'count' => $request->count, 'count_end' => $request->count_end])->links() !!}
 			</div>
 		</div>
     </div>

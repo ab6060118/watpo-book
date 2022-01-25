@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\Shop;
 use App\Models\Room;
 use App\Models\ServiceProvider;
+use \Carbon\Carbon;
 use DB;
 
 class OrderController extends Controller
@@ -39,14 +40,29 @@ class OrderController extends Controller
 			$order_list = $order_list->where('phone', $request->phone);
 		}
 
+		if($request->start_date){
+			$order_list = $order_list->whereDate('start_time', ">=", $request->start_date);
+		}
+
+		if($request->end_date){
+			$order_list = $order_list->whereDate('end_time', "<=", $request->end_date);
+		}
+
 		if($request->start_time){
-			$order_list = $order_list->whereDate('start_time', ">=", $request->start_time);
+			if ($request->start_time > $request->end_time) {
+				$order_list = $order_list->whereTime('start_time', "<=", Carbon::parse($request->start_time)->toTimeString());
+			} else {
+				$order_list = $order_list->whereTime('start_time', ">=", Carbon::parse($request->start_time)->toTimeString());
+			}
 		}
 
 		if($request->end_time){
-			$order_list = $order_list->whereDate('end_time', "<=", $request->end_time);
+			if ($request->start_time > $request->end_time) {
+				$order_list = $order_list->whereTime('start_time', ">=", Carbon::parse($request->start_time)->toTimeString());
+			} else {
+				$order_list = $order_list->whereTime('start_time', "<=", Carbon::parse($request->start_time)->toTimeString());
+			}
 		}
-
 		if($request->service){
 			$order_list = $order_list->where('service_id', $request->service);
 		}
@@ -99,12 +115,28 @@ class OrderController extends Controller
 			$order_list = $order_list->where('phone', $request->phone);
 		}
 
+		if($request->start_date){
+			$order_list = $order_list->whereDate('created_at', ">=", $request->start_date);
+		}
+
+		if($request->end_date){
+			$order_list = $order_list->whereDate('end_time', "<=", $request->end_date);
+		}
+
 		if($request->start_time){
-			$order_list = $order_list->whereDate('created_at', ">=", $request->start_time);
+			if ($request->start_time > $request->end_time) {
+				$order_list = $order_list->whereTime('start_time', "<=", Carbon::parse($request->start_time)->toTimeString());
+			} else {
+				$order_list = $order_list->whereTime('start_time', ">=", Carbon::parse($request->start_time)->toTimeString());
+			}
 		}
 
 		if($request->end_time){
-			$order_list = $order_list->whereDate('end_time', "<=", $request->end_time);
+			if ($request->start_time > $request->end_time) {
+				$order_list = $order_list->whereTime('start_time', ">=", Carbon::parse($request->start_time)->toTimeString());
+			} else {
+				$order_list = $order_list->whereTime('start_time', "<=", Carbon::parse($request->start_time)->toTimeString());
+			}
 		}
 
 		if($request->service){
