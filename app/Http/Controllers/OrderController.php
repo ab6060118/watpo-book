@@ -58,9 +58,9 @@ class OrderController extends Controller
 
 		if($request->end_time){
 			if ($request->start_time > $request->end_time) {
-				$order_list = $order_list->whereTime('start_time', ">=", Carbon::parse($request->start_time)->toTimeString());
+				$order_list = $order_list->whereTime('start_time', ">=", Carbon::parse($request->end_time)->toTimeString());
 			} else {
-				$order_list = $order_list->whereTime('start_time', "<=", Carbon::parse($request->start_time)->toTimeString());
+				$order_list = $order_list->whereTime('start_time', "<=", Carbon::parse($request->end_time)->toTimeString());
 			}
 		}
 		if($request->service){
@@ -133,9 +133,9 @@ class OrderController extends Controller
 
 		if($request->end_time){
 			if ($request->start_time > $request->end_time) {
-				$order_list = $order_list->whereTime('start_time', ">=", Carbon::parse($request->start_time)->toTimeString());
+				$order_list = $order_list->whereTime('start_time', ">=", Carbon::parse($request->end_time)->toTimeString());
 			} else {
-				$order_list = $order_list->whereTime('start_time', "<=", Carbon::parse($request->start_time)->toTimeString());
+				$order_list = $order_list->whereTime('start_time', "<=", Carbon::parse($request->end_time)->toTimeString());
 			}
 		}
 

@@ -111,7 +111,7 @@
 			                    	<!-- /form-group-->
 			                  	</div>
 			                  <!-- /col-md-4-->
-			                  	<div class="col-md-2">
+			                  	<div class="col-md-4">
 			                    	<div class="form-group">
 			                      		<label class="col-md-4 control-label">訂單日期</label>
 			                      		<div class="col-md-8">
@@ -121,7 +121,7 @@
 			                    <!-- /form-group-->
 			                  	</div>
 			                  <!-- /col-md-4-->
-				                <div class="col-md-2">
+				                <div class="col-md-4">
 				                    <div class="form-group">
 										<label class="col-md-4 control-label text-center">至</label>
 				                    	<div class="col-md-8">
@@ -130,22 +130,22 @@
 				                    </div>
 				                    <!-- /form-group-->
 				                </div>
-								<div class="col-md-2">
-				                    <div class="form-group">
+								<div class="col-md-4">
+									<div class="form-group">
 										<label class="col-md-4 control-label text-center">時間範圍</label>
-				                    	<div class="col-md-8">
-				                        	<input type="time" name="start_time" class="form-control" value="{{ $request->start_time }}">
-				                    	</div>
-				                    </div>
-				                </div>
-								<div class="col-md-2">
-				                    <div class="form-group">
+										<div class="col-md-8">
+											<input type="time" name="start_time" class="form-control" value="{{ $request->start_time }}">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
 										<label class="col-md-4 control-label text-center">至</label>
-				                    	<div class="col-md-8">
-				                        	<input type="time" name="end_time" class="form-control" value="{{ $request->end_time }}">
-				                    	</div>
-				                    </div>
-				                </div>
+										<div class="col-md-8">
+											<input type="time" name="end_time" class="form-control" value="{{ $request->end_time }}">
+										</div>
+									</div>
+								</div>
 			                  <!-- /col-md-4-->
 			                  <!-- /col-md-8-->
 			                  	<div class="col-md-4">
