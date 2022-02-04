@@ -163,7 +163,7 @@
 				                    </div>
 				                    <!-- /form-group-->
 				                </div>
-			                	<div class="col-md-4 text-right"><a href="/admin/order/export?name={{$request->name}}&service={{$request->service}}&phone={{$request->phone}}&shop={{$request->shop}}&service_provider={{$request->service_provider}}&start_date={{$request->start_date}}&end_date={{$request->end_date}}&room={{$request->room}}&count={{$request->count}}&count_end={{$request->count_end}}" class="btn btn-danger" target="_blank">匯出</a><input class="btn btn-primary" type="submit" value="查詢"></div>
+			                	<div class="col-md-4 text-right"><a href="/admin/order/export?name={{$request->name}}&service={{$request->service}}&phone={{$request->phone}}&shop={{$request->shop}}&service_provider={{$request->service_provider}}&start_time={{$request->start_time}}&end_time={{$request->end_time}}&start_date={{$request->start_date}}&end_date={{$request->end_date}}&room={{$request->room}}&count={{$request->count}}&count_end={{$request->count_end}}" class="btn btn-danger" target="_blank">匯出</a><input class="btn btn-primary" type="submit" value="查詢"></div>
 			                  <!-- /col-md-12-->
 			                </div>
 			                <!-- /row-->
