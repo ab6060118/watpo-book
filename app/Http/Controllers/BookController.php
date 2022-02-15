@@ -168,7 +168,7 @@ class BookController extends Controller {
 					}
 					$i++;
 				}
-				$start_time->add(new DateInterval("PT30M"));
+				$start_time->add(new DateInterval("PT15M"));
 			}
 
 			return response()->json($time_list, 200, self::headers, JSON_UNESCAPED_UNICODE);
