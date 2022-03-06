@@ -126,6 +126,8 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('/checkCode', ['uses' => 'SmsController@check_Code', 'as' => 'checkCode']);
 		Route::post('/report', ['uses' => 'ReportController@sendReport', 'as' => 'sendReport']);
 		
+		Route::get('/coupon/list', ['uses' => 'CouponController@getCoupons', 'as' => 'apiGetCoupons']);
+		Route::post('/coupon/draw', ['uses' => 'CouponController@draw', 'as' => 'apiDraw']);
 	});
 	//admin redirect
 	Route::get('/admin/{path?}', ['where' => ['path' => '.*'], function(){

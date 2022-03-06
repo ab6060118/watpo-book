@@ -8,4 +8,5 @@ Homestead.json
 .npm-debug.log
 .DS_STORE
 ./.vscode
+.idea
 *.log
