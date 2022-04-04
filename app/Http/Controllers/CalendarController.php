@@ -209,12 +209,12 @@ class CalendarController extends Controller
 			})->where('start_time', '>=', $last_two_month);
 		}
 
-		$orders =  $orders->with('service')
-							->with('room')
-							->with('serviceProviders')
-							->where('shop_id', $shop_id)
-							->where('start_time', '>=', date("Y-m-d H:i:s", $shop_start_time))
-							->where('end_time', '<=', date("Y-m-d H:i:s", $shop_end_time));
+		$orders = $orders->with('service')
+            ->with('room')
+            ->with('serviceProviders')
+            ->where('shop_id', $shop_id)
+            ->where('start_time', '>=', date("Y-m-d H:i:s", $shop_start_time))
+            ->where('end_time', '<=', date("Y-m-d H:i:s", $shop_end_time));
 
 		if(Session::get('account_level') == 2){
 			//60分後才隱藏訂單
@@ -237,6 +237,7 @@ class CalendarController extends Controller
 			$data->room_id = $order->room->id;
 			$data->service = $order->service->title;
 			$data->service_id = $order->service_id;
+            $data->price = $order->service->price;
 			if($order->account != null){
 				$data->account = $order->account->information;
 			}
@@ -271,7 +272,6 @@ class CalendarController extends Controller
 			$data->status = $order->status;
 
 			$data->provider = "";
-			$person = $order->person;
 			$service_provider_count = 0;	
 			foreach ($order->serviceProviders as $serviceProvider) {
 				if($serviceProvider->shop_id == $shop_id){
