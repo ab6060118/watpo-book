@@ -580,7 +580,7 @@
                     }
                     let time_option_list = [];
                     let excute = time_range.map((ti, index)=>new Promise((resolve,reject)=>{
-                        var temp_end_time = moment(ti).add(120,'minutes').isSame(end_time) ? moment(ti).add(120,'minutes') : moment(ti).add(90,'minutes');
+                        var temp_end_time = moment(ti).add(120,'minutes').isSame(end_time) ? moment(ti).add(120,'minutes') : moment(ti).add(105,'minutes');
                         $.ajax({
                             url: '/api/staff/service_provider_time',
                             type: 'get',
