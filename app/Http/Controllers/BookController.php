@@ -249,7 +249,7 @@ class BookController extends Controller {
 		$no_specific_amount = $this->no_specific($order_list, $service_providers);
 
 		if(count($service_provider_list) - $no_specific_amount < $person) {
-			return array ("select" => false, "reason" => "師傅休假");
+			return array ("select" => false, "reason" => "預約已滿");
 		}
 
 		//房間預約30分鐘
@@ -270,7 +270,7 @@ class BookController extends Controller {
 
 		$room = $room->get();
 		if ($room->isEmpty()) {
-			return array ("select" => false, "reason" => "師傅休假");
+			return array ("select" => false, "reason" => "預約已滿");
 		}
 		$result = array ("select" => true, "room" => $room);
 
