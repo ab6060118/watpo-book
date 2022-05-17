@@ -138,6 +138,7 @@ Route::group(['middleware' => ['web']], function () {
         // Route::get('/coupon/list', ['uses' => 'CouponController@getCoupons', 'as' => 'apiGetCoupons']);
         // Route::post('/coupon/draw', ['uses' => 'CouponController@draw', 'as' => 'apiDraw']);
         Route::get('/coupon/list', ['uses' => 'VoucherController@index', 'as' => 'apiVoucherIndex']);
+        Route::get('/coupon/{code}', ['uses' => 'VoucherController@code', 'as' => 'apiVoucherCode']);
         Route::post('/coupon/draw', ['uses' => 'VoucherController@creat', 'as' => 'apiVoucherCreat']);
     });
     //admin redirect

@@ -18,12 +18,45 @@ class VoucherController extends Controller {
             ->with('prize');
         if ($request->name) {
             $vouchers = $vouchers->where('name', 'Like', '%' . $request->name . '%');
+        } else {
+            return response()->json([]);
         }
         if ($request->phone) {
             $vouchers = $vouchers->where('phone', 'Like', '%' . $request->phone . '%');
+        } else {
+            return response()->json([]);
         }
         if ($request->code) {
             $vouchers = $vouchers->where('code', $request->code);
+        }
+        $vouchers = $vouchers->get();
+        $data = [];
+        foreach ($vouchers as $voucher) {
+            $data[] = [
+                'id' => $voucher->id,
+                'order_id' => $voucher->order_id,
+                'order_client_name' => $voucher->order->name ?? '',
+                'name' => $voucher->name,
+                'description' => $voucher->prize->description,
+                'code' => $voucher->code,
+                'money' => $voucher->money,
+                'expirationTime' => (is_null($voucher->expire_at) ? $voucher->expire_at : strtotime($voucher->expire_at)),
+                'isValid' => $voucher->is_valid,
+                'code' => $voucher->code,
+                'usedTime' => (is_null($voucher->used_at) ? $voucher->used_at : strtotime($voucher->used_at)),
+            ];
+        }
+        // dd($vouchers);
+        return response()->json($data);
+    }
+    public function code(Request $request) {
+        $vouchers = new Voucher;
+        $vouchers = $vouchers
+            ->with('prize');
+        if ($request->code) {
+            $vouchers = $vouchers->where('code', $request->code);
+        } else {
+            return response()->json([]);
         }
         $vouchers = $vouchers->get();
         $data = [];
