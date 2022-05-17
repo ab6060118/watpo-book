@@ -22,13 +22,20 @@ class VoucherController extends Controller {
         if ($request->phone) {
             $vouchers = $vouchers->where('phone', 'Like', '%' . $request->phone . '%');
         }
+        if ($request->code) {
+            $vouchers = $vouchers->where('code', $request->code);
+        }
         $vouchers = $vouchers->get();
         $data = [];
         foreach ($vouchers as $voucher) {
             $data[] = [
                 'id' => $voucher->id,
+                'order_id' => $voucher->order_id,
+                'order_client_name' => $voucher->order->name ?? '',
                 'name' => $voucher->name,
                 'description' => $voucher->prize->description,
+                'code' => $voucher->code,
+                'money' => $voucher->money,
                 'expirationTime' => (is_null($voucher->expire_at) ? $voucher->expire_at : strtotime($voucher->expire_at)),
                 'isValid' => $voucher->is_valid,
                 'code' => $voucher->code,
@@ -56,11 +63,17 @@ class VoucherController extends Controller {
             $voucher->prize_id = $prize->id;
             $voucher->expire_at = date('Y-m-d H:i:s', strtotime("+30 day"));
             $voucher->is_valid = 1;
+            $voucher->money = $prize->money;
             $voucher->code = PrizeService::creatCode();
             // dd($voucher);
             $voucher->save();
             // Log::create(['description' => '增加活動 id ' . $activities->id]);
-            return response()->json(['name' => $voucher->name, 'description' => $prize->description, 'expirationTime' => (is_null($voucher->expire_at) ? $voucher->expire_at : strtotime($voucher->expire_at))]);
+            return response()->json([
+                'name' => $voucher->name,
+                'description' => $prize->description,
+                'code' => $voucher->code,
+                'money' => $voucher->money,
+                'expirationTime' => (is_null($voucher->expire_at) ? $voucher->expire_at : strtotime($voucher->expire_at))]);
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 400);
         } catch (\Illuminate\Database\QueryException $e) {

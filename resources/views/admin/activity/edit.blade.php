@@ -143,6 +143,7 @@
                                     <th>#</th>
                                     <th>獎項名稱</th>
                                     <th>簡述</th>
+                                    <th>金額</th>
                                     <th>機率</th>
                                     <th>狀態</th>
                                     <th></th>
@@ -154,6 +155,7 @@
                                     <td>{{ $i }}</td>
                                     <td><input type="text" name="name" class="form-control" value="{{ $prize->name }}" required></td>
                                     <td><input type="text" name="description" class="form-control" value="{{ $prize->description }}"></td>
+                                    <td><input type="number" name="money" class="form-control" value="{{ $prize->money }}"></td>
                                     <td>
                                         <div class="input-group">
                                             <input type="number" name="probability" class="form-control" value="{{ $prize->probability }}" required>
@@ -189,7 +191,7 @@
                     <form class="form-horizontal">
                         <div class="row">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">獎項名稱</label>
                                         <div class="col-md-8">
@@ -197,7 +199,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">簡述</label>
                                         <div class="col-md-8">
@@ -205,7 +207,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">金額</label>
+                                        <div class="col-md-8">
+                                            <input type="number" name="money" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">機率</label>
                                         <div class="col-md-8">
@@ -217,7 +227,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">狀態</label>
                                         <div class="col-md-8">
@@ -341,6 +351,7 @@ $(function(){
         var item = $(this).parents('tr').eq(0);
         var name = item.find('[name="name"]').val();
         var probability = item.find('[name="probability"]').val();
+        var money = item.find('[name="money"]').val();
         // console.log(id);
         if(name != "" && probability != "" ){
             $.ajax({
@@ -352,6 +363,7 @@ $(function(){
                     'name':name,
                     'description':item.find('[name="description"]').val(),
                     'probability':probability,
+                    'money':money,
                     'status':((item.find('[name="status"]').is(":checked"))?'on':''),
                 },
                 success: function(res){

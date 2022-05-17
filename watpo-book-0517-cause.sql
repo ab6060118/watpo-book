@@ -1,11 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.9.1
--- https://www.phpmyadmin.net/
---
--- 主機： localhost
--- 產生時間： 2022 年 05 月 05 日 19:14
--- 伺服器版本： 10.3.34-MariaDB-0ubuntu0.20.04.1
--- PHP 版本： 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -52,6 +44,7 @@ CREATE TABLE `prizes` (
   `activity_id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
   `description` text DEFAULT NULL,
+  `money` INT(11) NULL DEFAULT NULL,
   `probability` decimal(5,2) NOT NULL DEFAULT 0.00,
   `status` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -72,6 +65,7 @@ CREATE TABLE `vouchers` (
   `name` varchar(20) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `code` varchar(20) NOT NULL,
+  `money` INT(11) NULL DEFAULT NULL,
   `is_valid` tinyint(1) NOT NULL DEFAULT 0,
   `expire_at` datetime DEFAULT NULL,
   `used_at` datetime DEFAULT NULL,

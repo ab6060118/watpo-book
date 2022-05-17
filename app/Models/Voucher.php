@@ -20,6 +20,10 @@ class Voucher extends Model {
     public function order() {
         return $this->hasOne(Order::class, 'id', 'order_id');
     }
+    public function getClientAttribute() {
+        // return $this->hasOneThrough(Activity::class, Prize::class);
+        return $this->order->account;
+    }
     public function getActivityAttribute() {
         // return $this->hasOneThrough(Activity::class, Prize::class);
         return $this->prize->activity;

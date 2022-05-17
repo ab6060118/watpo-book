@@ -19,6 +19,7 @@ class PrizeController extends Controller {
             $prize->name = $request->name;
             $prize->activity_id = $request->activity_id;
             $prize->description = $request->description;
+            $prize->money = $request->money;
             $prize->status = (($request->status == 'on') ? '1' : '0');
             $prizeService = new PrizeService;
             if (!$prizeService->checkProbability($request->probability)) {
@@ -43,6 +44,7 @@ class PrizeController extends Controller {
             $prize = $prize->where('id', $request->id)->first();
             $prize->name = $request->name;
             $prize->description = $request->description;
+            $prize->money = $request->money;
             $prize->status = (($request->status == 'on') ? '1' : '0');
             $prizeService = new PrizeService;
             if (!$prizeService->checkProbability($request->probability)) {
