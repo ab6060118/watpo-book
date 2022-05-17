@@ -33,7 +33,7 @@ class OrderController extends Controller
 		}
 
 		if($request->name){
-			$order_list = $order_list->where('name', 'Like', '%'.$name.'%');
+			$order_list = $order_list->where('name', 'Like', '%'.$request->name.'%');
 		}
 
 		if($request->phone){
