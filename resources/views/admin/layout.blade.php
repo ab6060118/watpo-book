@@ -42,15 +42,15 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
 
-        
+
     </head>
 
 
     <body class="fixed-left">
-        
+
         <!-- Begin page -->
         <div id="wrapper">
-        
+
             <!-- Top Bar Start -->
             <div class="topbar">
 
@@ -92,7 +92,7 @@
                             </li>
                             <li>
                                 <a href="#" class="waves-effect waves-primary"><i class="md md-event-note"></i>
-                                    <span> 預約排程 </span> 
+                                    <span> 預約排程 </span>
                                 </a>
                                 <ul class="list-unstyled">
                                      @if(is_null(session('account_shop_id')) || session('account_shop_id') == 1)
@@ -117,6 +117,9 @@
                                 <a href="/admin/order" class="waves-effect waves-primary"><i class="md md-view-list"></i><span> 訂單列表 </span></a>
                             </li>
                             <li>
+                                <a href="/admin/activity" class="waves-effect waves-primary"><i class="md md-view-list"></i><span> 活動列表 </span></a>
+                            </li>
+                            <li>
                                 <a href="/admin/report" class="waves-effect waves-primary"><i class="md md-receipt"></i><span> 顧客調查表 </span></a>
                             </li>
 
@@ -138,8 +141,8 @@
                             </li>
                             <li>
                                 <a href="/admin/log" class="waves-effect waves-primary"><i class="md md-content-paste"></i><span> 操作記錄 </span></a>
-                            </li> 
-                            @endif 
+                            </li>
+                            @endif
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -148,23 +151,23 @@
                     <div class="clearfix"></div>
                 </div>
 
-                
+
             </div>
-            <!-- Left Sidebar End --> 
+            <!-- Left Sidebar End -->
             <!-- ============================================================== -->
             <!-- Start right Content here -->
-            <!-- ============================================================== -->                      
+            <!-- ============================================================== -->
             @yield('content')
             <!-- ============================================================== -->
             <!-- End Right content here -->
             <!-- ============================================================== -->
-            
+
 
         </div>
         <!-- END wrapper -->
 
 
-    
+
         <script>
             var resizefunc = [];
         </script>
@@ -185,14 +188,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
         <!-- Moment  -->
         <script src="/assets/plugins/moment/moment.js"></script>
-        
+
         <!-- Counter Up  -->
         <script src="/assets/plugins/waypoints/lib/jquery.waypoints.js"></script>
         <script src="/assets/plugins/counterup/jquery.counterup.min.js"></script>
-        
+
         <!-- Sweet Alert  -->
         <script src="/assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
-        
+
         <!-- flot Chart -->
         <script src="/assets/plugins/flot-chart/jquery.flot.js"></script>
         <script src="/assets/plugins/flot-chart/jquery.flot.time.js"></script>
@@ -212,10 +215,10 @@
 
         <!-- Todos app  -->
         <script src="/assets/pages/jquery.todo.js"></script>
-        
+
         <!-- Chat App  -->
         <script src="/assets/pages/jquery.chat.js"></script>
-        
+
         <!-- Page js  -->
         <script src="/assets/pages/jquery.dashboard.js"></script>
 
