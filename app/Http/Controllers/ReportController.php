@@ -64,17 +64,6 @@ class ReportController extends Controller
         if($request->shop){
             $order_list = $order_list->where('shop_id', $request->shop);
         }
-        $order_list = $order_list->orderBy('end_time', 'desc')->paginate(10);
-
-        foreach ($order_list as $key => $order) {
-            $service_provider_information = "";
-
-            foreach ($order->serviceProviders as $key => $service_provider) {
-                $service_provider_information .= $service_provider->name."(".$service_provider->shop->name.")";
-            }
-            $order->service_provider_information = $service_provider_information;
-        }
-
         if($request->service_provider){
             $total_order = $order_list->get();
             $view_data['q2'] = ['非常滿意' => 0, '滿意' => 0, '普通' => 0, '不滿意' => 0];
@@ -92,6 +81,17 @@ class ReportController extends Controller
             foreach ($total_order as $key => $order) {
                 $view_data['q1'][$order->report->q1]++;
             }
+        }
+
+        $order_list = $order_list->orderBy('end_time', 'desc')->paginate(10);
+
+        foreach ($order_list as $key => $order) {
+            $service_provider_information = "";
+
+            foreach ($order->serviceProviders as $key => $service_provider) {
+                $service_provider_information .= $service_provider->name."(".$service_provider->shop->name.")";
+            }
+            $order->service_provider_information = $service_provider_information;
         }
 
         $view_data['order_list'] = $order_list;
