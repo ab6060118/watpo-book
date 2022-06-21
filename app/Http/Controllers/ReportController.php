@@ -64,7 +64,7 @@ class ReportController extends Controller
         if($request->shop){
             $order_list = $order_list->where('shop_id', $request->shop);
         }
-        
+        $total_order = $order_list->get();
         $order_list = $order_list->orderBy('end_time', 'desc')->paginate(10);
 
         foreach ($order_list as $key => $order) {
@@ -80,9 +80,17 @@ class ReportController extends Controller
             $view_data['q2'] = ['非常滿意' => 0, '滿意' => 0, '普通' => 0, '不滿意' => 0];
             $view_data['q3'] = ['非常滿意' => 0, '滿意' => 0, '普通' => 0, '不滿意' => 0];
             $view_data['q4'] = ['非常滿意' => 0, '滿意' => 0, '普通' => 0, '不滿意' => 0];
+            foreach ($total_order as $key => $order) {
+                $view_data['q2'][$order->report->q2]++;
+                $view_data['q3'][$order->report->q3]++;
+                $view_data['q4'][$order->report->q4]++;
+            }
         }
         else if($request->q0){
             $view_data['q1'] = ['非常滿意' => 0, '滿意' => 0, '普通' => 0, '不滿意' => 0];
+            foreach ($total_order as $key => $order) {
+                $view_data['q1'][$order->report->q1]++;
+            }
         }
 
         $view_data['order_list'] = $order_list;
