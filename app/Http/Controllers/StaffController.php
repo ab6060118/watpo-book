@@ -148,8 +148,8 @@ class StaffController extends Controller
 		//限制時間
 		if($limit_time == "true"){
 			//房間預約30分鐘
-			$start_time->sub(new DateInterval('PT30M'));
-			$end_time->add(new DateInterval('PT30M'));
+			$start_time->sub(new DateInterval('PT15M'));
+			$end_time->add(new DateInterval('PT15M'));
 		}
 		//2h以上房間名單
 		$rooms = Room::whereDoesntHave('orders' ,function ($query) use ($start_time, $end_time) {
@@ -168,8 +168,8 @@ class StaffController extends Controller
 		//限制時間
 		if($limit_time == "true"){
 			//扣回
-			$start_time->add(new DateInterval('PT30M'));
-			$end_time->sub(new DateInterval('PT30M'));
+			$start_time->add(new DateInterval('15'));
+			$end_time->sub(new DateInterval('PT15M'));
 		}
 		//限制時間
 		if($limit_time == "true"){
@@ -225,8 +225,8 @@ class StaffController extends Controller
 		//限制時間
 		if($limit_time == "true"){
 			//房間預約30分鐘
-			$start_time->sub(new DateInterval('PT30M'));
-			$end_time->add(new DateInterval('PT30M'));
+			$start_time->sub(new DateInterval('PT15M'));
+			$end_time->add(new DateInterval('PT15M'));
 		}
 		$rooms = Room::whereDoesntHave('orders' ,function ($query) use ($start_time, $end_time) {
 			$query->whereNotIn('status', [3,4,6]);
@@ -237,8 +237,8 @@ class StaffController extends Controller
 		//限制時間
 		if($limit_time == "true"){
 			//扣回
-			$start_time->add(new DateInterval('PT30M'));
-			$end_time->sub(new DateInterval('PT30M'));
+			$start_time->add(new DateInterval('PT15M'));
+			$end_time->sub(new DateInterval('PT15M'));
 		}
 		$rooms_1h = [];
 		foreach ($rooms as $room){
