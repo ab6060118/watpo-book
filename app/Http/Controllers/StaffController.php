@@ -168,7 +168,7 @@ class StaffController extends Controller
 		//限制時間
 		if($limit_time == "true"){
 			//扣回
-			$start_time->add(new DateInterval('15'));
+			$start_time->add(new DateInterval('PT15M'));
 			$end_time->sub(new DateInterval('PT15M'));
 		}
 		//限制時間
