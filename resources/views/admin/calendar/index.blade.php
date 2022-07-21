@@ -262,18 +262,50 @@
         </div>
         <div class="row" style="margin-top:50px;">
             <div class="col-md-12">
-                <input type="submit" class="btn btn-info" style="font-size:17px; font-weight: 500;font-weight: 500;margin: 15px 5px 0;padding: 10px 32px;border: 0;border-radius: 3px;">
+                <input type="submit" class="btn btn-info" style="font-size:17px; font-weight: 500;font-weight: 500;margin: 15px 5px 0;pading: 10px 32px;border: 0;border-radius: 3px;">
             </div>
         </div>
     </form>
 </script>
+<script id="apply-coupon-modal" type="x-jsrender">
+    <div class="container" style="height:200x;">
+        <div>
+            <span>訂單金額：@{{:price}}<span>
+            <span>折扣金額：<span>
+            <span id="apply-modal-discount-field">0<span>
+        </div>
+        <div id="reader" width="300px" height="300"></div>
+        <div id='apply-coupon-modal-error-message'></div>
+        <div style="margin-top: 8px; display: flex; align-items: center; justify-content: center;">
+            <label>折扣碼：</label>
+            <input type="text" id="apply-coupon-modal-coupon-code-field" placeholder="請輸入六位數折扣碼" maxlength="6"/>
+            <input type="hidden" id="apply-coupon-modal-name-field"/>
+            <input type="hidden" id="apply-coupon-modal-phone-field"/>
+            <button type="button" class="btn btn-success" id="apply-coupon-modal-apply-button" style="margin-left: 8px">確定抵用</button>
+            <button type="button" class="btn btn-warning" id="apply-coupon-modal-unapply-button" style="margin-left: 8px; display: none;">取消套用</button>
+            <button type="button" class="btn btn-primary" id="apply-coupon-modal-scan-button" style="margin-left: 8px">開啟掃描器</button>
+        </div>
+        <div style="margin-top: 8px">
+            <div>
+                若要使用折扣碼，請務必按下確定抵用後再結帳
+            </div>
+            <div>
+                若不使用折扣碼，直接按下結帳即可
+            </div>
+        </div>
+        </div>
+        <div style="margin-top: 8px">
+            <button type="button" class="btn btn-success apply-coupon-modal-order_confirm" data-id="@{{:id}}" style="font-size:20px;">結帳</button>
+        </div>
+    </div>
+</script>
 <script id="check_form_template" type="x-jsrender">
     <div class="container" style="height:200x;">
         <div class="row" style="margin-top: 15px;">
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <button type="button" class="btn btn-warning order_cancel" data-id="@{{:id}}" style="font-size:20px;">取消訂單</button>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <button type="button" class="btn btn-primary order_update" 
                     data-id="@{{:id}}" 
                     data-name="@{{:name}}" 
@@ -289,10 +321,21 @@
             @if(session('account_level') != 1)
             @{{if status != 6}}
             @endif
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <button type="button" class="btn btn-success order_confirm" data-id="@{{:id}}" style="font-size:20px;">確認訂單</button>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+                <button
+                type="button"
+                class="btn btn-success checkout"
+                data-price='@{{:price}}'
+                @{{if status !== 5 echo}}
+                disabled
+                @{{/if}}
+                data-id="@{{:id}}"
+                style="font-size:20px; @{{:status !== 5 ? 'background-color: gray !important;' : ''}}">結帳</button>
+            </div>
+            <div class="col-md-2">
                 <button type="button" class="btn phone_check" data-id="@{{:id}}" style="font-size:20px;background-color: coral;border: 1px solid coral;color:white;">電話確認</button>
             </div>
             @if(session('account_level') != 1)
@@ -356,6 +399,7 @@
             data-end_time="@{{:end_time}}"
             data-status = "@{{:status}}"
             data-provider= "@{{:provider}}"
+            data-price="@{{:price}}"
         >
             <td>@{{:id}}</td>
             <td>@{{:time}}</td>
@@ -419,7 +463,7 @@
 </script>
 <script type="text/javascript">
     $(function() { // document ready
-        
+        var html5QrCode = undefined;
         @if ($errors->has('fail'))
         swal(
           '失敗',
@@ -485,7 +529,7 @@
                     swal({
                         title: date + ' 師傅出勤狀況',
                         html: html,
-                        width: "70%",
+                        width: "50%",
                         allowOutsideClick: false,
                         showCancelButton: false,
                         focusConfirm: false,
@@ -597,6 +641,7 @@
             var room_id = $(this).data('room_id');
             var status = $(this).data('status');
             var provider = $(this).data('provider');
+            var price = $(this).data('price');
             var myTemplate = $.templates("#check_form_template"); 
             var html = myTemplate.render({
                 id: id,
@@ -609,12 +654,13 @@
                 service_id: service_id,
                 room_id: room_id,
                 status: status,
-                provider: provider
+                provider: provider,
+                price: price,
             });
             swal({
                 title: '#'+id+' 預約單確認',
                 html: html,
-                width: "50%",
+                width: "80%",
                 allowOutsideClick: false,
                 showCancelButton: false,
                 focusConfirm: false,
@@ -649,8 +695,140 @@
                 url: '/api/order/confirm',
                 type: 'post',
                 dataType: 'json',
+                data: { order_id: order_id },
+                success: function(data){
+                    swal.close();
+                    render_order_list();
+                },
+                error: function(e){
+                    alert('訂單確認失敗 請洽系統商!');
+                }
+            });
+        });
+
+        $('body').on('click', '.checkout', function(){
+            var id = $(this).data('id');
+            var price = $(this).data('price') || 0;
+            var myTemplate = $.templates("#apply-coupon-modal");
+            var html = myTemplate.render({
+                id: id,
+                price: price
+            });
+            swal({
+                title: '結帳',
+                html: html,
+                width: "60%",
+                allowOutsideClick: false,
+                showCancelButton: false,
+                focusConfirm: false,
+                cancelButtonText:'取消',
+                showConfirmButton: false,
+                showCloseButton: true,
+                onClose: function(...arg) {
+                    if(html5QrCode && html5QrCode.getState() === 2) html5QrCode.stop()
+                }
+            })
+        });
+
+        $('body').on('click', '#apply-coupon-modal-apply-button', function(){
+            var couponCodeElement = $(this).closest('.swal2-modal').find('#apply-coupon-modal-coupon-code-field')
+            var couponCode = couponCodeElement.val();
+
+            if(!couponCode) return ;
+
+            $.ajax({
+                url: `/api/coupon/${couponCode}`,
+                type: 'GET',
+                success: (data) => {
+                    const [coupon] = data || {}
+
+                    if(!coupon) {
+                        alert('無效的折扣碼');
+                        couponCodeElement.val('');
+                        return;
+                    }
+                    const { money } = coupon || {}
+
+                    $('#apply-modal-discount-field').html(`${money || 0 }`)
+                    $(this).closest('.swal2-modal').find('#apply-coupon-modal-coupon-code-field').prop('disabled', true);
+                    $(this).hide()
+                    $('#apply-coupon-modal-unapply-button').show()
+                },
+                error: function(e){
+                    alert(e.message);
+                }
+            });
+        })
+
+        $('body').on('click', '#apply-coupon-modal-unapply-button', function(){
+            var couponCode = $(this).closest('.swal2-modal').find('#apply-coupon-modal-coupon-code-field').val('');
+            $(this).closest('.swal2-modal').find('#apply-coupon-modal-coupon-code-field').prop('disabled', false);
+            $('#apply-modal-discount-field').html('0')
+            $(this).hide()
+            $('#apply-coupon-modal-apply-button').show()
+        })
+
+        $('body').on('click', '#apply-coupon-modal-scan-button', function(){
+            var codeInput = $(this).closest('.swal2-modal').find('#apply-coupon-modal-coupon-code-field')
+            var nameInput = $(this).closest('.swal2-modal').find('#apply-coupon-modal-name-field')
+            var phoneInput = $(this).closest('.swal2-modal').find('#apply-coupon-modal-phone-field')
+
+            Html5Qrcode.getCameras().then(devices => {
+                if (devices && devices.length) {
+                    var cameraId = devices[0].id;
+                    html5QrCode = new Html5Qrcode("reader");
+
+                    html5QrCode
+                        .start(
+                            cameraId,
+                            {
+                                fps: 10,    // Optional, frame per seconds for qr code scanning
+                                qrbox: { width: 250, height: 250 }  // Optional, if you want bounded box UI
+                            },
+                            (decodedText, decodedResult) => {
+                                try {
+                                    var result = JSON.parse(decodedText);
+                                    var code = result.code;
+                                    var name = decodeURIComponent(result.name)
+                                    var phone = decodeURIComponent(result.phone)
+
+                                    codeInput.val(code)
+                                    nameInput.val(name)
+                                    phoneInput.val(phone)
+                                    html5QrCode.stop()
+                                } catch (e) {
+                                    html5QrCode.stop().then(function() {
+                                        alert(e.message)
+                                    })
+                                }
+                            },
+                            (errorMessage) => {
+                            })
+                        .catch((err) => {
+                            // Start failed, handle it.
+                        });
+                }
+            }).catch(err => {
+                $('#apply-coupon-modal-error-message').html(JSON.stringify(err))
+                // handle err
+            });
+        });
+
+        $('body').on('click', '.apply-coupon-modal-order_confirm', function(){
+            var order_id = $(this).data('id');
+            var couponCode = $(this).closest('.swal2-modal').find('#apply-coupon-modal-coupon-code-field').val();
+            var phone = $(this).closest('.swal2-modal').find('#apply-coupon-modal-phone-field').val();
+            var name = $(this).closest('.swal2-modal').find('#apply-coupon-modal-name-field').val();
+            if(html5QrCode && html5QrCode.getState() === 2) html5QrCode.stop()
+
+            // TODO 結帳 API 待補上
+            $.ajax({
+                url: '/api/order/confirm',
+                type: 'post',
+                dataType: 'json',
                 data: {
-                    order_id: order_id
+                    order_id: order_id,
+                    coupon_code: couponCode,
                 },
                 success: function(data){
                     swal.close();
@@ -822,6 +1000,7 @@
                 return false;
             }
         })
+        render_order_list()
     });
 </script>
 @stop

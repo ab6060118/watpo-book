@@ -1,193 +1,218 @@
 import { LinkContainer } from 'react-router-bootstrap';
-import { translate } from 'react-i18next';
-import i18n from '../i18n';
-import { connect } from "react-redux";
-import clearCheckOrdersInfo from "../dispatchers/clearCheckOrdersInfo";
-import { bindActionCreators } from "redux";
-import LoadingAnimation from "./LoadingAnimation";
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import SweetAlert from 'sweetalert-react';
 import { renderToStaticMarkup } from 'react-dom/server';
+import LoadingAnimation from './LoadingAnimation';
+import clearCheckOrdersInfo from '../dispatchers/clearCheckOrdersInfo';
+import i18n from '../i18n';
 
 // 首頁
 
-const Button = ReactBootstrap.Button,
-    Grid = ReactBootstrap.Grid,
-    Row = ReactBootstrap.Row,
-    Col = ReactBootstrap.Col;
+const { Button } = ReactBootstrap;
+const { Grid } = ReactBootstrap;
+const { Row } = ReactBootstrap;
+const { Col } = ReactBootstrap;
 
 class Landpage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.scroll = this.scroll.bind(this);
-        
-    }
-    componentDidMount() {
-        if (this.props.checkOrdersInfo != {}) {
-            this.props.clearCheckOrdersInfo("name");
-            this.props.clearCheckOrdersInfo("contactNumber");
-        }
-        // this.state = {show: true};
-        Swal.fire({
-            imageUrl: '/assets//images/book/alert.jpg',
-            showConfirmButton: false,
-            width: 600
-        })
-    }
-    scroll() {
-        const distance = document.querySelector('.landpage_section').getBoundingClientRect().top + window.scrollY - 20,
-            scrollLen = distance / 50;
+  constructor(props) {
+    super(props);
+    this.scroll = this.scroll.bind(this);
+  }
 
-        const scroll = setInterval(function () {
-            window.scroll(0, window.scrollY + scrollLen);
-            if (window.scrollY >= distance) clearInterval(scroll);
-        }, 16);
+  componentDidMount() {
+    if (this.props.checkOrdersInfo != {}) {
+      this.props.clearCheckOrdersInfo('name');
+      this.props.clearCheckOrdersInfo('contactNumber');
     }
-    render() {
-        const { t } = this.props;
-        const map_style = {
-            width: "100%",
-            height: 450,
-            border: 0
-        };
-        const branchData = [{
-            name: t("location1"),
-            time: "12:00 p.m. ~ 04:00 a.m.",
-            address: t('watpoAddr1'),
-            phone: "( 02 ) 2581- 3338",
-            location_src: "https://www.google.com/maps/embed/v1/place?key=AIzaSyDF_ECD1dnac71XWyss7Asu_Q15pb7HbF4&q=place_id:ChIJD_320V2pQjQR7q6lHg9dZaA"
-        }, {
-            name: t("location2"),
-            time: "11:00 a.m. ~ 03:00 a.m.",
-            address: t('watpoAddr2'),
-            phone: "( 02 ) 2570- 9393",
-            location_src: "https://www.google.com/maps/embed/v1/place?key=AIzaSyDF_ECD1dnac71XWyss7Asu_Q15pb7HbF4&q=place_id:ChIJdbQig-qrQjQRA7uNkj6tkc4"
-        }],
-            branches = branchData.map((branch, index) => {
-                return (
-                    <div key={index}>
-                        <h4><i className="fa fa-caret-right" aria-hidden="true"></i>{" " + branch.name}</h4>
-                        {/* <LoadingAnimation /> */}
-                        <Row>
-                            <Col md={6}>
-                                <div className="contentBlock" key={index}>
-                                    <p>
-                                        {t('bussinessHours') + " : " + branch.time}<br />
-                                        {t('address') + " : " + branch.address}<br />
-                                        {t('registrationNumber') + " : " + branch.phone}
-                                    </p>
-                                </div>
-                            </Col>
-                            <Col md={6}>
-                                <iframe
-                                    className="sectionItem"
-                                    frameBorder="0"
-                                    style={map_style}
-                                    src={branch.location_src} allowFullScreen>
-                                </iframe>
-                            </Col>
-                        </Row>
-                    </div>
-                );
-            });
+    // this.state = {show: true};
+    Swal.fire({
+      imageUrl: '/assets//images/book/alert.jpg',
+      showConfirmButton: false,
+      width: 600,
+    });
+  }
 
-        return (
-            <Grid>
-                
-                <Row className="landpage_top">
-                    <div className="topContainer">
-                        <h1 className="title">{t("Watpo")}</h1>
-                        <h2 className="sub">{t("ThaiTraditionalMedicalMassage")}</h2>
-                        <div className="landpageBtnContainer">
-                            <LinkContainer to="/reservation/0">
-                                <Button bsStyle="info" bsSize="large" className="btn mainBtn" block>
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
-                                    {"  " + t('book')}
-                                </Button>
-                            </LinkContainer>
-                            <LinkContainer to="/checkOrders/0">
-                                <Button bsStyle="primary" bsSize="large" className="btn mainBtn" block>
-                                    <i className="fa fa-search" aria-hidden="true"></i>
-                                    {"  " + t('book check')}
-                                </Button>
-                            </LinkContainer>
-                        </div>
-                    </div>
-                </Row>
-                <Row className="landpage_section">
-                    <i className="fa fa-chevron-down scrollArrow" onClick={this.scroll}></i>
-                    <Col md={12}>
-                        <h3 className="sectionTitle"><i className="fa fa-list-alt" aria-hidden="true"></i>{" " + t("services")}</h3>
-                    </Col>
-                    <Col md={5}>
-                        <div className="img"></div>
-                    </Col>
-                    <Col md={7}>
-                        <div className="sectionItem">
-                            <h4><i className="fa fa-caret-right" aria-hidden="true"></i>{t("ThaiTraditionalMassage")}</h4>
-                            <h5>{t("price1") + ": " + t("servicePrice1_1hr") + " (50" + t("min") + t("massage") + " 10" + t("min") + t("Foot bath") + ") / " + t("servicePrice1_2hr") + " (1" + t("hours") + "50" + t("min") + t("massage") + " 10" + t("min") + t("Foot bath") + ")"}</h5>
-                            <div className="contentBlock">
-                                <p>
-                                    {t("ThaiTraditionalMassageDes")}
-                                </p>
-                            </div>
-                        </div>
-                        <div className="sectionItem">
-                            <h4><i className="fa fa-caret-right" aria-hidden="true"></i> {t("ThaiOilMassage")}</h4>
-                            <h5>{t("price2") + ": " + t("servicePrice2_1hr") + " (50" + t("min") + t("massage") + " 10" + t("min") + t("shower") + ") / " + t("servicePrice2_2hr") + " (1" + t("hours") + "50" + t("min") + t("massage") + " 10" + t("min") + t("shower") + ")"}</h5>
-                            <div className="contentBlock">
-                                <p>
-                                    {t("ThaiOilMassageDes")}
-                                </p>
-                            </div>
-                        </div>
+  scroll() {
+    const distance = document.querySelector('.landpage_section').getBoundingClientRect().top + window.scrollY - 20;
+    const scrollLen = distance / 50;
 
-                        <div className="sectionItem">
-                            <h4><i className="fa fa-caret-right" aria-hidden="true"></i> {t("massageAndSpa")}</h4>
-                            <h5>{t("price3") + ": " + t("servicePrice3") + " (2" + t("hours") + ")"}</h5>
-                            <div className="contentBlock">
-                                <p>
-                                    {t("massageAndSpaDes")}
-                                </p>
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-                <Row className="landpage_section">
-                    <Col md={12}>
-                        <h3 className="sectionTitle"><i className="fa fa-building-o" aria-hidden="true"></i>{" " + t("locations")}</h3>
-                    </Col>
-                    <Col md={12}>
-                        {branches}
-                    </Col>
-                </Row>
-                <div className="topBg"></div>
-                <Row className="footerContainer">
-                    <Col md={12}>
-                        <footer>
-                            <a href="https://www.facebook.com/watpomassages" target="_blank"><i className="fa fa-facebook-square" aria-hidden="true"></i></a><br />
-                            {t("WatpoThaiTraditionalMedicalMassage")}<br />
-                            {t("registrationNumber")}: ( 02 ) 2581- 3338888<br />
-                            {t("bussinessHours")}: 12:00 p.m. ~ 04:00 a.m.<br />
-                            {t("watpoAddr1")}
-                        </footer>
-                    </Col>
-                </Row>
-            </Grid>
-        );
-    }
+    const scroll = setInterval(() => {
+      window.scroll(0, window.scrollY + scrollLen);
+      if (window.scrollY >= distance) clearInterval(scroll);
+    }, 16);
+  }
+
+  render() {
+    const { t } = this.props;
+    const map_style = {
+      width: '100%',
+      height: 450,
+      border: 0,
+    };
+    const branchData = [{
+      name: t('location1'),
+      time: '12:00 p.m. ~ 04:00 a.m.',
+      address: t('watpoAddr1'),
+      phone: '( 02 ) 2581- 3338',
+      location_src: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyDF_ECD1dnac71XWyss7Asu_Q15pb7HbF4&q=place_id:ChIJD_320V2pQjQR7q6lHg9dZaA',
+    }, {
+      name: t('location2'),
+      time: '11:00 a.m. ~ 03:00 a.m.',
+      address: t('watpoAddr2'),
+      phone: '( 02 ) 2570- 9393',
+      location_src: 'https://www.google.com/maps/embed/v1/place?key=AIzaSyDF_ECD1dnac71XWyss7Asu_Q15pb7HbF4&q=place_id:ChIJdbQig-qrQjQRA7uNkj6tkc4',
+    }];
+    const branches = branchData.map((branch, index) => (
+      <div key={index}>
+        <h4>
+          <i className="fa fa-caret-right" aria-hidden="true" />
+          {` ${branch.name}`}
+        </h4>
+        {/* <LoadingAnimation /> */}
+        <Row>
+          <Col md={6}>
+            <div className="contentBlock" key={index}>
+              <p>
+                {`${t('bussinessHours')} : ${branch.time}`}
+                <br />
+                {`${t('address')} : ${branch.address}`}
+                <br />
+                {`${t('registrationNumber')} : ${branch.phone}`}
+              </p>
+            </div>
+          </Col>
+          <Col md={6}>
+            <iframe
+              className="sectionItem"
+              frameBorder="0"
+              style={map_style}
+              src={branch.location_src}
+              allowFullScreen
+            />
+          </Col>
+        </Row>
+      </div>
+    ));
+
+    return (
+      <Grid>
+
+        <Row className="landpage_top">
+          <div className="topContainer">
+            <h1 className="title">{t('Watpo')}</h1>
+            <h2 className="sub">{t('ThaiTraditionalMedicalMassage')}</h2>
+            <div className="landpageBtnContainer">
+              <LinkContainer to="/reservation/0">
+                <Button bsStyle="info" bsSize="large" className="btn mainBtn" block>
+                  <i className="fa fa-pencil" aria-hidden="true" />
+                  {`  ${t('book')}`}
+                </Button>
+              </LinkContainer>
+              <LinkContainer to="/checkOrders/0">
+                <Button bsStyle="primary" bsSize="large" className="btn mainBtn" block>
+                  <i className="fa fa-search" aria-hidden="true" />
+                  {`  ${t('book check')}`}
+                </Button>
+              </LinkContainer>
+            </div>
+          </div>
+        </Row>
+        <Row className="landpage_section">
+          <i className="fa fa-chevron-down scrollArrow" onClick={this.scroll} />
+          <Col md={12}>
+            <h3 className="sectionTitle">
+              <i className="fa fa-list-alt" aria-hidden="true" />
+              {` ${t('services')}`}
+            </h3>
+          </Col>
+          <Col md={5}>
+            <div className="img" />
+          </Col>
+          <Col md={7}>
+            <div className="sectionItem">
+              <h4>
+                <i className="fa fa-caret-right" aria-hidden="true" />
+                {t('ThaiTraditionalMassage')}
+              </h4>
+              <h5>{`${t('price1')}: ${t('servicePrice1_1hr')} (50${t('min')}${t('massage')} 10${t('min')}${t('Foot bath')}) / ${t('servicePrice1_2hr')} (1${t('hours')}50${t('min')}${t('massage')} 10${t('min')}${t('Foot bath')})`}</h5>
+              <div className="contentBlock">
+                <p>
+                  {t('ThaiTraditionalMassageDes')}
+                </p>
+              </div>
+            </div>
+            <div className="sectionItem">
+              <h4>
+                <i className="fa fa-caret-right" aria-hidden="true" />
+                {' '}
+                {t('ThaiOilMassage')}
+              </h4>
+              <h5>{`${t('price2')}: ${t('servicePrice2_1hr')} (50${t('min')}${t('massage')} 10${t('min')}${t('shower')}) / ${t('servicePrice2_2hr')} (1${t('hours')}50${t('min')}${t('massage')} 10${t('min')}${t('shower')})`}</h5>
+              <div className="contentBlock">
+                <p>
+                  {t('ThaiOilMassageDes')}
+                </p>
+              </div>
+            </div>
+
+            <div className="sectionItem">
+              <h4>
+                <i className="fa fa-caret-right" aria-hidden="true" />
+                {' '}
+                {t('massageAndSpa')}
+              </h4>
+              <h5>{`${t('price3')}: ${t('servicePrice3')} (2${t('hours')})`}</h5>
+              <div className="contentBlock">
+                <p>
+                  {t('massageAndSpaDes')}
+                </p>
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Row className="landpage_section">
+          <Col md={12}>
+            <h3 className="sectionTitle">
+              <i className="fa fa-building-o" aria-hidden="true" />
+              {` ${t('locations')}`}
+            </h3>
+          </Col>
+          <Col md={12}>
+            {branches}
+          </Col>
+        </Row>
+        <div className="topBg" />
+        <Row className="footerContainer">
+          <Col md={12}>
+            <footer>
+              <a href="https://www.facebook.com/watpomassages" target="_blank" rel="noreferrer"><i className="fa fa-facebook-square" aria-hidden="true" /></a>
+              <br />
+              {t('WatpoThaiTraditionalMedicalMassage')}
+              <br />
+              {t('registrationNumber')}
+              : ( 02 ) 2581- 3338888
+              <br />
+              {t('bussinessHours')}
+              : 12:00 p.m. ~ 04:00 a.m.
+              <br />
+              {t('watpoAddr1')}
+            </footer>
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        checkOrdersInfo: state.checkOrdersInfo
-    }
-}
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({
-        clearCheckOrdersInfo: clearCheckOrdersInfo
-    }, dispatch);
-}
+const mapStateToProps = (state) => ({
+  checkOrdersInfo: state.checkOrdersInfo,
+});
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  clearCheckOrdersInfo,
+}, dispatch);
 
 Landpage = connect(mapStateToProps, mapDispatchToProps)(Landpage);
 
-export default translate()(Landpage); 
+export default withTranslation()(Landpage);

@@ -1,6 +1,4 @@
-module.exports = (loadingOrNot)=>{
-    return ({
-        type: "TOGGLE_LOADING",
-        payload: loadingOrNot
-    });
-}
+export default (loadingOrNot) => ({
+  type: 'TOGGLE_LOADING',
+  payload: loadingOrNot,
+});

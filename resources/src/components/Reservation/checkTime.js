@@ -1,5 +1,5 @@
 // 負責寫資料(日期,時段)到global state
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import Calendar from "./Calendar";
 import LoadingAnimation from "../LoadingAnimation";
 import Button from "./Button";
@@ -582,4 +582,4 @@ class CheckTime extends React.Component {
     }
 }
 
-module.exports = translate()(CheckTime);
+export default withTranslation()(CheckTime);

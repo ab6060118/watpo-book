@@ -1,17 +1,17 @@
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
-const Col = ReactBootstrap.Col,
-      Button = ReactBootstrap.Button;
+const { Col } = ReactBootstrap;
+const { Button } = ReactBootstrap;
 
-const Button_ = (props)=>{
-    const { t } = props;
-    return (
-        <Col md={12}>
-            <Button type="submit" bsStyle="primary" bsSize="large" disabled={props.disabled} onClick={props.disabled?null:props.clickHandle}>
-                {props.currentStep==2?t("send"):t("nextStep")}
-            </Button>
-        </Col>
-    );
+function Button_(props) {
+  const { t } = props;
+  return (
+    <Col md={12}>
+      <Button type="submit" bsStyle="primary" bsSize="large" disabled={props.disabled} onClick={props.disabled ? null : props.clickHandle}>
+        {props.currentStep == 2 ? t('send') : t('nextStep')}
+      </Button>
+    </Col>
+  );
 }
 
-module.exports = translate()(Button_);
+export default withTranslation()(Button_);

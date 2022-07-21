@@ -1,11 +1,11 @@
-import reducers from "./reducers";
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
+import reducers from './reducers';
 
 const rootReducer = combineReducers({
   lastAction: reducers.lastAction,
   loading: reducers.loading,
   checkOrdersInfo: reducers.checkOrdersInfo,
-  phoneValidator: reducers.phoneValidator
+  phoneValidator: reducers.phoneValidator,
 });
 
-module.exports = rootReducer;
+export default rootReducer;
