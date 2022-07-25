@@ -204,7 +204,7 @@ class BookController extends Controller {
 		})->where('shop_id', $shop_id)->where('activate', true)->whereIn('id', $service_provider_id_list)->pluck('name')->toArray();
 
 		if(count($service_providers) != 0) {
-			return array ("select" => false, "reason" => "\n師傅 ".implode(" ", $service_providers)." 休");
+			return array ("select" => false, "reason" => "\n師傅 ".implode(" ",$service_providers)." 休");
 		}
 
         $service_providers = ServiceProvider::freeTime($month, $start_time, $end_time)->where('shop_id', $shop_id)->where('activate', true)->get();
@@ -227,7 +227,7 @@ class BookController extends Controller {
 		}
 
 		if(!empty(array_diff($service_provider_id_list, $service_provider_list))) {
-			return array ("select" => false, "reason" => "\n師傅休");
+			return array ("select" => false, "reason" => "預約已滿");
 		}
 
 		/* 不指定人數 */
