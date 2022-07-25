@@ -227,7 +227,7 @@ class BookController extends Controller {
 		}
 
 		if(!empty(array_diff($service_provider_id_list, $service_provider_list))) {
-			return array ("select" => false, "reason" => "\n師傅".implode(",",$array_diff($service_provider_id_list, $service_provider_list))." 休");
+			return array ("select" => false, "reason" => "\n師傅".implode(",", array_diff($service_provider_id_list, $service_provider_list))." 休");
 		}
 
 		/* 不指定人數 */
